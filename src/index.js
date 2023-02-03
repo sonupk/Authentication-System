@@ -9,7 +9,7 @@ app.use(express.json());
 mongoose.connect("mongodb+srv://sonupk:1HivF6DXHWanVcYu@cluster0.vtjazgb.mongodb.net/AuthSystem-DB", {
     useNewUrlParser: true
 })
-    .then(() => console.log("MongoDb is connected"))
+    .then(() => console.log("MongoDb is connected on port 27017"))
     .catch(err => console.log(err))
 
 

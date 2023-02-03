@@ -83,7 +83,7 @@ const userLogin = async function (req, res) {
 
     //-----------------------------------token creation part here:-------------------------------------------
     const token = await jwt.sign({
-      userId: loginUser._id, group: "group20", iat: Math.floor(Date.now() / 1000),
+      userId: loginUser._id,  iat: Math.floor(Date.now() / 1000),
       exp: Math.floor(Date.now() / 1000) + 20 * 60 * 60
       
     }, "AuthSystem");
@@ -97,5 +97,60 @@ const userLogin = async function (req, res) {
   }
 }
 
+const getUserById = async function (req, res) {
+  try {
+    let userId = req.params.userId;
+
+    if (!userId) {
+      return res.status(400).send({ status: false, message: "please give userID" });
+    }
+
+    if (!isValidId(userId)) {
+      return res.status(400).send({ status: false, message: "please give correct userID" });
+    }
+
+    let userData = await userModel.findOne({ _id: userId });
+    if (!userData) {
+      return res.status(404).send({ status: false, message: "user not found" });
+    }
+return res.status(200).send({ status: true, message: "user deatils", data: userData });
+  } catch (error) {
+    return res.status(500).send({ status: false, message: error.message });
+  }
+};
+
+const getUsers = async function(req, res)  {
+  try {
+    let data = req.query;
+    let { name, email } = data;
+
+    if (name && isValid(name)) {
+      let findName = await userModel.findOne({ name: name });
+      if (!findName) {
+        return res.status(400).send({ status: false, message: "please give correct name" });
+      }
+}
+
+    if (email && isValidEmail(email)) {
+      let findEmail = await userModel.findOne({ email: email });
+      if (!findEmail) {
+        return res.status(400).send({status: false,message: "please give correct email address",
+        });
+      }
+
+      return res .status(200).send({status: true, message: "user details fetched successfully",data: findEmail,
+        });
+    }
+
+    let getAllUsers = await userModel.find({ isDeletd: false });
+    return res.status(200).send({status: true, message: "user details fetched successfully",data: getAllUsers,
+      });
+  } catch (error) {
+    return res.status(500).send({ status: false, message: error.message });
+  }
+};
+
 module.exports.registerUser = registerUser;
 module.exports.userLogin = userLogin;
+module.exports.getUserById=getUserById;
+module.exports.getUsers=getUsers;

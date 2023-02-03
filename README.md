@@ -1,19 +1,13 @@
 # Authentication-System
-
- 
-
-Create a fully featured authentication system which showcases multiple authentication mechanisms.
-
 1. Simple JWT token based authentication
 
-2. cookie session authentication
+1. use npm start command in terminal to run server.
 
-3. OAuth login with google
+2. follow the schema and create user with name ,email and password
 
-4. JWT access and refresh token based authentication.
+3.  login via same user with email and password
 
-Please refrain from using passportjs or any other library that performs authentication for you.
+4. to authenticate user simply use get request and provide token in headers x-api-key as key and value as token.
 
+5. to get all users use get request
 
-
-Bonus Points: Write Unit test and Integration tests
